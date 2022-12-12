@@ -72,9 +72,9 @@
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="ni ni-email-83"></i></span></div><input class="form-control @error('email') is-invalid @enderror"
-                                            placeholder="Email" type="email" name="email" value="{{ old('email') }}">
-                                            @error('email')
+                                                    class="ni ni-email-83"></i></span></div><input class="form-control @error('username') is-invalid @enderror"
+                                            placeholder="Username" type="text" name="username" value="{{ old('username') }}">
+                                            @error('username')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

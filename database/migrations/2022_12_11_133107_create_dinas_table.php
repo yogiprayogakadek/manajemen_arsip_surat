@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('dinas', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 100);
-            // $table->string('alamat', 100);
-            $table->string('telp', 100);
-            $table->string('username', 100);
-            $table->string('password', 100);
-            $table->enum('role', ['Admin', 'Umum', 'Lainnya']);
-            $table->string('foto', 100);
+            $table->string('kategori', 50);
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('dinas');
     }
 };

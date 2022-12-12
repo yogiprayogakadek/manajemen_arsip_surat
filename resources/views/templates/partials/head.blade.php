@@ -9,5 +9,7 @@
 
     <link id="gull-theme" rel="stylesheet" href="{{asset('assets/styles/css/themes/lite-purple.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="http://gull-html-laravel.ui-lib.com/assets/styles/vendor/datatables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
