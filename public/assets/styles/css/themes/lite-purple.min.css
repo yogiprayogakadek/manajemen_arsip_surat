@@ -36062,3 +36062,13 @@ blockquote {
     text-decoration: none;
     background-color: #10163a
 }
+
+.label-needed {
+    font-weight: bold;
+    font-style: italic;
+    color: #ba160a;
+}
+
+.pointer {
+    cursor: pointer;
+}

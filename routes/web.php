@@ -57,10 +57,23 @@ Route::middleware('auth')->group(function() {
                 Route::post('/update', 'update')->name('update');
         });
 
-        // unit kerj Route
+        // unit kerja Route
         Route::controller(UnitKerjaController::class)
             ->prefix('unit-kerja')
             ->as('unit.')
+            ->group(function(){
+                Route::get('', 'index')->name('index');
+                Route::get('/render', 'render')->name('render');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+        });
+
+        // surat masuk Route
+        Route::controller(SuratMasukController::class)
+            ->prefix('surat-masuk')
+            ->as('masuk.')
             ->group(function(){
                 Route::get('', 'index')->name('index');
                 Route::get('/render', 'render')->name('render');
