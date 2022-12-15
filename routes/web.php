@@ -81,6 +81,8 @@ Route::middleware('auth')->group(function() {
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::post('/store', 'store')->name('store');
                 Route::post('/update', 'update')->name('update');
+                Route::get('/lampiran/{id}', 'lampiran')->name('lampiran');
+                Route::get('/hapus-lampiran/{surat_id}/{lampiran_id}', 'hapusLampiran')->name('hapus.lampiran');
         });
     });
 });

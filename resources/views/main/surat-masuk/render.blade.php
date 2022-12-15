@@ -19,23 +19,31 @@
             <table class="table table-hover table-striped" id="tableData">
                 <thead>
                     <th>No</th>
-                    <th>Nama Unit Kerja</th>
+                    <th>No. Surat</th>
+                    <th>Pengirim</th>
+                    <th>Klasifikasi</th>
+                    <th>Kategori</th>
+                    <th>Tanggal Surat</th>
                     {{-- @can('admin') --}}
                     <th>Aksi</th>
                     {{-- @endcan --}}
                 </thead>
                 <tbody>
-                    {{-- @foreach ($unit as $unit)
+                    @foreach ($surat as $surat)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$unit->nama}}</td>
+                        <td>{{$surat->nomor_surat}}</td>
+                        <td>{{$surat->pengirim}}</td>
+                        <td>{{$surat->klasifikasi->klasifikasi}}</td>
+                        <td>{{$surat->kategori}}</td>
+                        <td>{{$surat->tanggal_surat}}</td>
                         <td>
-                            <button class="btn btn-edit btn-default" data-id="{{$unit->id}}">
+                            <button class="btn btn-edit btn-default" data-id="{{$surat->id}}">
                                 <i class="fa fa-eye text-success mr-2 pointer" ></i> Edit
                             </button>
                         </td>
                     </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

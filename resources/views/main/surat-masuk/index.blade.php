@@ -11,4 +11,10 @@
 
 @push('script')
     <script src="{{asset('assets/function/surat-masuk/main.js')}}"></script>
+    <script>
+        function assets(url) {
+            var url = '{{ url("") }}/' + url;
+            return url;
+        }
+    </script>
 @endpush

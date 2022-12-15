@@ -82,15 +82,14 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="tembusan" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
+                    <label for="tembusan" class="ul-form__label ul-form--margin col-lg-1 col-form-label ">
                         Tembusan:
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
                     </label>
                     <div class="col-lg-11">
-                        <select name="tembusan" id="tembusan" class="form-control tembusan">
-                            <option value="">Pilih tembusan...</option>
+                        <select name="tembusan[]" id="tembusan" class="form-control tembusan select-dropdown" multiple="multiple">
                             @foreach ($dinas as $key => $value)
-                                <option value="{{$key}}">{{$value}}</option>
+                                <option value="{{$key}}|{{$value}}">{{$value}}</option>
                             @endforeach
                         </select>
                         {{-- <div class="invalid-feedback error-tembusan"></div> --}}
@@ -104,13 +103,13 @@
                     </label>
                     <div class="col-lg-11 mt-2">
                         <label class="checkbox checkbox-primary">
-                            <input type="checkbox" name="bupati" value="bupati" id="tembusan_khusus">
+                            <input type="checkbox" name="tembusan_khusus[]" value="bupati" id="tembusan_khusus">
                             <span>Bupati</span>
                             <span class="checkmark"></span>
                         </label>
 
                         <label class="checkbox checkbox-primary">
-                            <input type="checkbox" name="wakil_bupati" value="wakil_bupati" id="tembusan_khusus">
+                            <input type="checkbox" name="tembusan_khusus[]" value="wakil_bupati" id="tembusan_khusus">
                             <span>Wakil Bupati</span>
                             <span class="checkmark"></span>
                         </label>
@@ -152,11 +151,11 @@
                         File Lampiran:
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
                     </label>
-                    <div class="col-lg-11">
+                    <div class="col-lg-11 lampiran-group">
                         <div class="input-group mb-3">
-                            <input type="file" class="form-control file-lampiran" id="file-lampiran" name="file_lampiran">
+                            <input type="file" class="form-control file-lampiran" id="file-lampiran" name="file_lampiran[]">
                             <div class="input-group-append">
-                                <span class="input-group-text bg-success text-white pointer" id="basic-addon2">
+                                <span class="input-group-text bg-success text-white pointer btn-lampiran" id="basic-addon2">
                                     <i class="fa fa-plus"></i> Tambah
                                 </span>
                             </div>
@@ -173,7 +172,7 @@
                     <div class="col-lg-11 mt-2">
                         <select name="unit_kerja" id="unit-kerja" class="form-control unit_kerja">
                             <option value="">Pilih unit kerja...</option>
-                            @foreach ($dinas as $key => $value)
+                            @foreach ($unit as $key => $value)
                                 <option value="{{$key}}">{{$value}}</option>
                             @endforeach
                         </select>
@@ -195,3 +194,9 @@
         </div>
     </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.select-dropdown').select2();
+    });
+</script>

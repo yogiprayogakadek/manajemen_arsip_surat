@@ -11,4 +11,10 @@ class SuratMasuk extends Model
 
     protected $guarded = ['id'];
     protected $table = 'surat_masuk';
+    // protected $dates = ['tanggal_surat'];
+
+    public function klasifikasi()
+    {
+        return $this->belongsTo(KlasifikasiSurat::class, 'klasifikasi_id', 'id');
+    }
 }

@@ -11,4 +11,9 @@ class KlasifikasiSurat extends Model
 
     protected $guarded = ['id'];
     protected $table = 'klasifikasi_surat';
+
+    public function surat_masuk()
+    {
+        return $this->hasMany(SuratMasuk::class, 'klasifikasi_id', 'id');
+    }
 }

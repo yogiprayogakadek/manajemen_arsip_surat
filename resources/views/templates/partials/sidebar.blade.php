@@ -33,7 +33,7 @@
                 <div class="triangle"></div>
             </li>
 
-            <li class="nav-item {{Request::is('masuk') ? 'active' : '' }}">
+            <li class="nav-item {{Request::is('surat-masuk') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('masuk.index')}}">
                     <i class="nav-icon i-Administrator"></i>
                     <span class="nav-text">Surat Masuk</span>

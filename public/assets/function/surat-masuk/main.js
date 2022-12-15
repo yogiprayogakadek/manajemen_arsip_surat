@@ -170,4 +170,120 @@ $(document).ready(function () {
         });
     });
 
+    let lampiran = '<div class="input-group mb-3">' +
+                        '<input type="file" class="form-control file-lampiran" id="file-lampiran" name="file_lampiran[]">' +
+                        '<div class="input-group-append">' +
+                            '<span class="input-group-text bg-danger text-white pointer btn-lampiran-delete" id="basic-addon2">' +
+                                '<i class="fa fa-trash"></i> Hapus' +
+                            '</span>'+
+                        '</div>'+
+                    '</div>';
+
+    $('body').on('click', '.btn-lampiran', function() {
+        $('.lampiran-group').append(lampiran);
+    });
+
+    $('body').on('click', '.btn-lampiran-delete', function() {
+        $(this).closest('.input-group').remove();
+    });
+    
+    $('body').on('click', '.btn-surat', function() {
+        let surat = $(this).data('surat')
+        if(surat == "") {
+            Swal.fire(
+                "Info",
+                "Tidak ada file surat yang di unggah sebelumnya",
+                'info'
+            );
+        } else {
+            window.open(assets(surat), '_blank');
+        }
+    });
+
+    $('body').on('click', '.btn-lampiran-view', function() {
+        let id = $(this).data('id')
+        $('#tableLampiran tbody').empty();
+        $.get("/surat-masuk/lampiran/"+id, function (data) {
+            $.each(data, function (index, val) { 
+                let tr_list = '<tr>' +
+                                '<td>' + (index+1) + '</td>' +
+                                '<td>' + '<a href="'+assets(val.lampiran)+'" target="_blank">Lihat lampiran</a>' + '</td>' +
+                                '<td>' + '<button type=button class="btn btn-danger btn-remove-lampiran" data-surat-id="'+id+'" data-lampiran-id="'+val.id+'"><i class="fa fa-trash"></i></button>' + '</td>' +
+                            '</tr>';
+                $('#tableLampiran tbody').append(tr_list);
+            });
+        });
+
+        $('#modalLampiran').modal('show')
+    });
+
+    $('body').on('click', '.btn-remove-lampiran', function() {
+        let lampiran_id = $(this).data('lampiran-id')
+        let surat_id = $(this).data('surat-id')
+
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data yang sudah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "/surat-masuk/hapus-lampiran/"+surat_id+"/"+lampiran_id,
+                    dataType: "json",
+                    success: function (response) {
+                        if(response.status == "success") {
+                            $('#tableLampiran tbody').empty();
+                            $.get("/surat-masuk/lampiran/"+surat_id, function (data) {
+                                $.each(data, function (index, val) { 
+                                    let tr_list = '<tr>' +
+                                                    '<td>' + (index+1) + '</td>' +
+                                                    '<td>' + '<a href="'+assets(val.lampiran)+'" target="_blank">Lihat lampiran</a>' + '</td>' +
+                                                    '<td>' + '<button type=button class="btn btn-danger btn-remove-lampiran" data-surat-id="'+id+'" data-lampiran-id="'+val.id+'"><i class="fa fa-trash"></i></button>' + '</td>' +
+                                                '</tr>';
+                                    $('#tableLampiran tbody').append(tr_list);
+                                });
+                            })
+                        }
+                        Swal.fire(
+                            response.title,
+                            response.message,
+                            response.status
+                        );
+                    },
+                    error: function (error) {
+                        console.log("Error", error);
+                    },
+                });
+            }
+        })
+    });
+
+    // TEST
+    $('body').on('click', function() {
+        $.get("/surat-masuk/hapus-lampiran/"+surat_id+"/"+lampiran_id, function (response) {
+            if(response.status == "success") {
+                $('#tableLampiran tbody').empty();
+                $.get("/surat-masuk/lampiran/"+surat_id, function (data) {
+                    $.each(data, function (index, val) { 
+                        let tr_list = '<tr>' +
+                                        '<td>' + (index+1) + '</td>' +
+                                        '<td>' + '<a href="'+assets(val.lampiran)+'" target="_blank">Lihat lampiran</a>' + '</td>' +
+                                        '<td>' + '<button type=button class="btn btn-danger btn-remove-lampiran" data-surat-id="'+id+'" data-lampiran-id="'+val.id+'"><i class="fa fa-trash"></i></button>' + '</td>' +
+                                    '</tr>';
+                        $('#tableLampiran tbody').append(tr_list);
+                    });
+                })
+            }
+            Swal.fire(
+                response.title,
+                response.message,
+                response.status
+            );
+        });
+    })
 });
