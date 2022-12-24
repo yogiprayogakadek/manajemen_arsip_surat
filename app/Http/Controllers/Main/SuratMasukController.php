@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SuratMasukRequest;
 use App\Models\Dinas;
 use App\Models\KlasifikasiSurat;
 use App\Models\SuratMasuk;
@@ -42,7 +43,7 @@ class SuratMasukController extends Controller
         return response()->json($view);
     }
 
-    public function store(Request $request)
+    public function store(SuratMasukRequest $request)
     {
         // dd($request->all());
         try {
@@ -108,7 +109,7 @@ class SuratMasukController extends Controller
                     $extension = $request->file('file_lampiran')[$i]->getClientOriginalExtension();
     
                     //filename to store
-                    $filenametostore = $request->nomor_surat . '-file_lampiran-' . ($i + 1) . '-' . time() . '.' . $extension;
+                    $filenametostore = 'file_lampiran-' . ($i + 1) . '-' . time() . '.' . $extension;
                     $save_path = 'assets/uploads/surat-masuk/lampiran';
                     
                     if (!file_exists($save_path)) {
@@ -171,16 +172,99 @@ class SuratMasukController extends Controller
         return response()->json($view);
     }
 
-    public function update(DinasRequest $request)
+    public function update(SuratMasukRequest $request)
     {
         try {
-            $dinas = Dinas::find($request->id);
+            $surat = SuratMasuk::find($request->id);
             $data = [
-                'nama' => $request->nama,
+                'pengirim' => $request->pengirim,
+                'klasifikasi_id' => $request->klasifikasi,
                 'kategori' => $request->kategori,
+                'nomor_surat' => $request->nomor_surat,
+                'perihal' => $request->perihal,
+                'tanggal_surat' => $request->tanggal_surat,
+                'unit_kerja_id' => $request->unit_kerja
             ];
 
-            $dinas->update($data);
+            $tembusan = [];
+            if(count($request->tembusan) > 0) {
+                for($j = 0; $j < count($request->tembusan); $j++) {
+                    $dinas = explode('|', $request->tembusan[$j]);
+                    // dd($dinas);
+                    $tembusan[] = [
+                        'dinas_id' => $dinas[0],
+                        'nama' => $dinas[1],
+                    ];
+                }
+                $data['tembusan'] = json_encode($tembusan);
+            }
+
+            if($request->has('tembusan_khusus')) {
+                $tembusan_khusus = '';
+                foreach ($request->input('tembusan_khusus') as $value) {
+                    $tembusan_khusus .= $value .';';
+                }
+                $data['tembusan_khusus'] = substr($tembusan_khusus, 0, -1);
+                // if(count($request->tembusan_khusus) > 0) {
+                // }
+            } else {
+                $data['tembusan_khusus'] = null;
+            }
+
+            if($request->hasFile('file_surat')) {
+                unlink($surat->file_surat);
+                $filenamewithextension = $request->file('file_surat')->getClientOriginalName();
+
+                //get file extension
+                $extension = $request->file('file_surat')->getClientOriginalExtension();
+
+                //filename to store
+                $filenametostore = 'file_surat-' . $request->pengirim . '-' . time() . '.' . $extension;
+                $save_path = 'assets/uploads/surat-masuk/surat';
+
+                if (!file_exists($save_path)) {
+                    mkdir($save_path, 666, true);
+                }
+                
+                $request->file('file_surat')->move($save_path, $filenametostore);
+
+                $data['file_surat'] = $save_path . '/' . $filenametostore;
+            }
+
+            // last id on file lampiran
+            $file_lampiran = json_decode($surat->file_lampiran, true);
+            $last_id = $file_lampiran[count($file_lampiran)-1]['id'];
+            if($request->hasFile('file_lampiran')) {
+                for($i = 0; $i < count($request->file('file_lampiran')); $i++) {
+                    //get filename with extension
+                    $filenamewithextension = $request->file('file_lampiran')[$i]->getClientOriginalName();
+        
+                    //get file extension
+                    $extension = $request->file('file_lampiran')[$i]->getClientOriginalExtension();
+    
+                    //filename to store
+                    $filenametostore = 'file_lampiran-' . $last_id+($i + 1) . '-' . time() . '.' . $extension;
+                    $save_path = 'assets/uploads/surat-masuk/lampiran';
+                    
+                    if (!file_exists($save_path)) {
+                        mkdir($save_path, 666, true);
+                    }
+
+                    $request->file('file_lampiran')[$i]->move($save_path, $filenametostore);
+
+                    $data['file_lampiran'] = $save_path . '/' . $filenametostore;
+
+                    $file_lampiran[] = [
+                        'id' => $last_id+($i + 1),
+                        'lampiran' => $save_path . '/' . $filenametostore
+                    ];
+                }
+
+                $new_lampiran = json_encode($file_lampiran);
+                $data['file_lampiran'] = $new_lampiran;
+            }
+
+            $surat->update($data);
 
             return response()->json([
                 'status' => 'success',
@@ -192,7 +276,7 @@ class SuratMasukController extends Controller
             return response()->json([
                 'status' => 'error',
                 // 'message' => 'Terjadi kesalahan',
-                'message' => 'Terjadi kesalahan',
+                'message' => $e->getMessage(),
                 'title' => 'Gagal'
             ]);
         }
@@ -220,6 +304,7 @@ class SuratMasukController extends Controller
                     $keys[] = $key;
                 }
             }
+            unlink($lampiran[$keys[0]]['lampiran']);
             unset($lampiran[$keys[0]]);
 
             $surat->update([
@@ -235,8 +320,8 @@ class SuratMasukController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                // 'message' => 'Terjadi kesalahan',
                 'message' => 'Terjadi kesalahan',
+                // 'message' => $e->getMessage(),
                 'title' => 'Gagal'
             ]);
         }

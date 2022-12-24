@@ -40,6 +40,14 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+
+            <li class="nav-item {{Request::is('surat-keluar') ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{route('keluar.index')}}">
+                    <i class="nav-icon i-Administrator"></i>
+                    <span class="nav-text">Surat Keluar</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
         </div>
     </div>
     <div class="sidebar-overlay"></div>

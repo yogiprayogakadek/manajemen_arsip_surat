@@ -11,4 +11,14 @@ class SuratKeluar extends Model
 
     protected $guarded = ['id'];
     protected $table = 'surat_keluar';
+
+    public function klasifikasi()
+    {
+        return $this->belongsTo(KlasifikasiSurat::class, 'klasifikasi_id', 'id');
+    }
+
+    public function tipe()
+    {
+        return $this->belongsTo(TipeSurat::class, 'tipe_id', 'id');
+    }
 }

@@ -84,6 +84,19 @@ Route::middleware('auth')->group(function() {
                 Route::get('/lampiran/{id}', 'lampiran')->name('lampiran');
                 Route::get('/hapus-lampiran/{surat_id}/{lampiran_id}', 'hapusLampiran')->name('hapus.lampiran');
         });
+
+        // surat masuk Route
+        Route::controller(SuratKeluarController::class)
+            ->prefix('surat-keluar')
+            ->as('keluar.')
+            ->group(function(){
+                Route::get('', 'index')->name('index');
+                Route::get('/render', 'render')->name('render');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+        });
     });
 });
 

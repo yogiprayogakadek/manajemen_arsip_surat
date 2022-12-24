@@ -61,12 +61,12 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="nomor_surat" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
+                    <label for="nomor-surat" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         No. Surat:
                         <br> <span class="label-needed">(Dibutuhkan)</span>
                     </label>
                     <div class="col-lg-11 mt-2">
-                        <input type="text" class="form-control nomor-surat" id="nomor_surat" name="nomor_surat" value="{{$surat->nomor_surat}}">
+                        <input type="text" class="form-control nomor_surat" id="nomor-surat" name="nomor_surat" value="{{$surat->nomor_surat}}">
                         <div class="invalid-feedback error-nomor_surat"></div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                                         </span>
                             </div>
                             {{-- <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"> --}}
-                            <input type="date" class="form-control tanggal-surat" id="tanggal-surat" name="tanggal_surat" value="{{$surat->tanggal_surat}}">
+                            <input type="date" class="form-control tanggal_surat" id="tanggal-surat" name="tanggal_surat" value="{{$surat->tanggal_surat}}">
                         </div>
                         <div class="invalid-feedback error-tanggal_surat"></div>
                     </div>

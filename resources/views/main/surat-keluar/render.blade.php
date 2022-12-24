@@ -20,7 +20,7 @@
                 <thead>
                     <th>No</th>
                     <th>No. Surat</th>
-                    <th>Pengirim</th>
+                    <th>Tipe Surat</th>
                     <th>Klasifikasi</th>
                     <th>Kategori</th>
                     <th>Tanggal Surat</th>
@@ -33,7 +33,7 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>{{$surat->nomor_surat}}</td>
-                        <td>{{$surat->pengirim}}</td>
+                        <td>{{$surat->tipe->tipe}}</td>
                         <td>{{$surat->klasifikasi->klasifikasi}}</td>
                         <td>{{$surat->kategori}}</td>
                         <td>{{$surat->tanggal_surat}}</td>
