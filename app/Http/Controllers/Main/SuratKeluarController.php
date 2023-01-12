@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SuratKeluarRequest;
 use App\Models\Dinas;
 use App\Models\KlasifikasiSurat;
+use App\Models\Pengajuan;
 use App\Models\SuratKeluar;
 use App\Models\TipeSurat;
 use App\Models\UnitKerja;
@@ -20,7 +21,7 @@ class SuratKeluarController extends Controller
 
     public function render()
     {
-        $surat = SuratKeluar::with('klasifikasi')->get();
+        $surat = SuratKeluar::with('klasifikasi', 'pengajuan')->get();
 
         $view = [
             'data' => view('main.surat-keluar.render', compact('surat'))->render(),
@@ -33,12 +34,17 @@ class SuratKeluarController extends Controller
     {
         $klasifikasi = KlasifikasiSurat::all();
         $tipe = TipeSurat::all();
+
+        $nomor_surat = Pengajuan::where('user_id', auth()->user()->id)
+                        ->where('status', true)
+                        ->pluck('nomor_surat', 'id')->toArray();
+
         $kategori = [
             'Penting', 'Biasa', 'Rahasia', 'Undangan', 'Pengantar'
         ];
         $dinas = Dinas::pluck('nama', 'id')->toArray();
         $view = [
-            'data' => view('main.surat-keluar.create', compact('klasifikasi', 'kategori', 'dinas', 'tipe'))->render(),
+            'data' => view('main.surat-keluar.create', compact('klasifikasi', 'kategori', 'dinas', 'tipe', 'nomor_surat'))->render(),
         ];
 
         return response()->json($view);
@@ -47,28 +53,29 @@ class SuratKeluarController extends Controller
     public function store(SuratKeluarRequest $request)
     {
         try {
-            $surat = SuratKeluar::count();
-            if($surat == 0) {
-                $nomor_surat = '833/0001'. '/test';
-            } else {
-                $last = SuratKeluar::latest()->first();
+            // $surat = SuratKeluar::count();
+            // if($surat == 0) {
+            //     $nomor_surat = '833/0001'. '/test';
+            // } else {
+            //     $last = SuratKeluar::latest()->first();
 
-                $explode = explode('/', $last->nomor_surat);
-                $lastNum = (int) substr($explode[1], -2, 2);
+            //     $explode = explode('/', $last->nomor_surat);
+            //     $lastNum = (int) substr($explode[1], -2, 2);
 
-                $currentPage = (int) substr($explode[1], 0, 2);
+            //     $currentPage = (int) substr($explode[1], 0, 2);
 
-                if($lastNum == 99) {
-                    $currentPage += 1;
-                    $nomor_surat = '833/' . ($currentPage < 10 ? '0' . $currentPage : $currentPage) . '01/' . '/test';
-                } else {
-                    $lastNum += 1;
-                    $nomor_surat = '833/' . ($currentPage < 10 ? '0' . $currentPage : $currentPage) . ($lastNum < 10 ? '0' . $lastNum : $lastNum) . '/test';
-                }
-            }
+            //     if($lastNum == 99) {
+            //         $currentPage += 1;
+            //         $nomor_surat = '833/' . ($currentPage < 10 ? '0' . $currentPage : $currentPage) . '01/' . '/test';
+            //     } else {
+            //         $lastNum += 1;
+            //         $nomor_surat = '833/' . ($currentPage < 10 ? '0' . $currentPage : $currentPage) . ($lastNum < 10 ? '0' . $lastNum : $lastNum) . '/test';
+            //     }
+            // }
 
             $data = [
-                'nomor_surat' => $nomor_surat,
+                // 'nomor_surat' => $nomor_surat,
+                'pengajuan_id' => $request->nomor_surat,
                 'klasifikasi_id' => $request->klasifikasi,
                 'tipe_id' => $request->tipe,
                 'kategori' => $request->kategori,
@@ -181,6 +188,7 @@ class SuratKeluarController extends Controller
         try {
             $surat = SuratKeluar::find($request->id);
             $data = [
+                'pengajuan_id' => $request->nomor_surat,
                 'klasifikasi_id' => $request->klasifikasi,
                 'tipe_id' => $request->tipe,
                 'kategori' => $request->kategori,
@@ -259,5 +267,11 @@ class SuratKeluarController extends Controller
                 'title' => 'Gagal'
             ]);
         }
+    }
+
+    public function pengajuan($id)
+    {
+        $pengajuan = Pengajuan::find($id);
+        return response()->json($pengajuan);
     }
 }

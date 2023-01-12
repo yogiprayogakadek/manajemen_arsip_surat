@@ -27,12 +27,12 @@ class DinasController extends Controller
 
     public function create()
     {
-        $kategori = [
-            'Internal Pemerintahan Badung',
-            'Luar Pemerintahan Badung'
-        ];
+        // $kategori = [
+        //     'Internal Pemerintahan Badung',
+        //     'Luar Pemerintahan Badung'
+        // ];
         $view = [
-            'data' => view('main.dinas.create', compact('kategori'))->render(),
+            'data' => view('main.dinas.create')->render(),
         ];
 
         return response()->json($view);
@@ -67,12 +67,12 @@ class DinasController extends Controller
     public function edit($id) 
     {
         $dinas = Dinas::find($id);
-        $kategori = [
-            'Internal Pemerintahan Badung',
-            'Luar Pemerintahan Badung'
-        ];
+        // $kategori = [
+        //     'Internal Pemerintahan Badung',
+        //     'Luar Pemerintahan Badung'
+        // ];
         $view = [
-            'data' => view('main.dinas.edit', compact('dinas', 'kategori'))->render()
+            'data' => view('main.dinas.edit', compact('dinas'))->render()
         ];
 
         return response()->json($view);

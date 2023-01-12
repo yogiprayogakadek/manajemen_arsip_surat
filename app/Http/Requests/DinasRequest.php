@@ -26,7 +26,7 @@ class DinasRequest extends FormRequest
     {
         $rules = [
             'nama' => 'required',
-            'kategori' => 'required',
+            // 'kategori' => 'required',
         ];
 
         // if(!Request::instance()->has('id')) {
@@ -49,7 +49,7 @@ class DinasRequest extends FormRequest
     {
         return [
             'nama' => 'Nama dinas',
-            'kategori' => 'Kategori dinas'
+            // 'kategori' => 'Kategori dinas'
         ];
     }
 }

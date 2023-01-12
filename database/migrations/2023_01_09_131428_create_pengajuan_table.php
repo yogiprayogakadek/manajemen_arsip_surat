@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dinas', function (Blueprint $table) {
+        Schema::create('pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
-            // $table->string('kategori', 50);
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('kode', 20);
+            $table->string('unit_pengolahan', 50);
+            $table->date('tanggal_surat');
+            $table->text('uraian_perihal');
+            $table->string('keterangan')->comment('penanggung jawab');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dinas');
+        Schema::dropIfExists('pengajuan');
     }
 };

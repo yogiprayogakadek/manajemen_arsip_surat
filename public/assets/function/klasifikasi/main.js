@@ -59,7 +59,7 @@ $(document).ready(function () {
             },
             complete: function () {
                 $('.btn-save').removeAttr('disable')
-                $('.btn-save').html('Save')
+                $('.btn-save').html('Simpan')
             },
             success: function (response) {
                 $('#formAdd').trigger('reset')
@@ -133,7 +133,7 @@ $(document).ready(function () {
             },
             complete: function () {
                 $('.btn-update').removeAttr('disable')
-                $('.btn-update').html('Save')
+                $('.btn-update').html('Simpan')
             },
             success: function (response) {
                 $('#formEdit').trigger('reset')

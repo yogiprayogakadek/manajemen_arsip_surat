@@ -1,7 +1,7 @@
 function getData() {
     $.ajax({
         type: "get",
-        url: "/dinas/render",
+        url: "/pengajuan/render",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -15,7 +15,7 @@ function getData() {
 function tambah() {
     $.ajax({
         type: "get",
-        url: "/dinas/create",
+        url: "/pengajuan/create",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -48,7 +48,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/dinas/store",
+            url: "/pengajuan/store",
             data: data,
             processData: false,
             contentType: false,
@@ -100,7 +100,7 @@ $(document).ready(function () {
         let id = $(this).data('id')
         $.ajax({
             type: "get",
-            url: "/dinas/edit/" + id,
+            url: "/pengajuan/edit/" + id,
             dataType: "json",
             success: function (response) {
                 $(".render").html(response.data);
@@ -122,7 +122,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/dinas/update",
+            url: "/pengajuan/update",
             data: data,
             processData: false,
             contentType: false,
@@ -170,4 +170,32 @@ $(document).ready(function () {
         });
     });
 
+    $('body').on('click', '.btn-validasi', function() {
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Anda yakin?',
+            text: "Ubah status data ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, validasi!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/pengajuan/validasi/' + id,
+                    type: 'GET',
+                    success: function (result) {
+                        Swal.fire(
+                            result.title,
+                            result.message,
+                            result.status
+                        )
+                        getData();
+                    }
+                });
+            }
+        })
+    });
 });

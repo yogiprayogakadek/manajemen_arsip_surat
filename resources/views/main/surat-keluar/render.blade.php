@@ -32,7 +32,7 @@
                     @foreach ($surat as $surat)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$surat->nomor_surat}}</td>
+                        <td>{{$surat->pengajuan->nomor_surat}}</td>
                         <td>{{$surat->tipe->tipe}}</td>
                         <td>{{$surat->klasifikasi->klasifikasi}}</td>
                         <td>{{$surat->kategori}}</td>

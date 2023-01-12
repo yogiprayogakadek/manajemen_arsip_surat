@@ -21,4 +21,9 @@ class SuratKeluar extends Model
     {
         return $this->belongsTo(TipeSurat::class, 'tipe_id', 'id');
     }
+
+    public function pengajuan()
+    {
+        return $this->belongsTo(Pengajuan::class, 'pengajuan_id', 'id');
+    }
 }

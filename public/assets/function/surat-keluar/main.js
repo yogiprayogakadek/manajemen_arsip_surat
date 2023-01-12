@@ -19,10 +19,116 @@ function tambah() {
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
+            setTimeout(() => {
+                // hide all data with hidden class
+                $('body').find('.hidden').prop('hidden', true)
+            }, 1);
         },
         error: function (error) {
             console.log("Error", error);
         },
+    });
+}
+
+function processUpdate(data) {
+    $.ajax({
+        type: "POST",
+        url: "/surat-keluar/update",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function () {
+            $('.btn-update').attr('disable', 'disabled')
+            $('.btn-update').html('<i class="fa fa-spin fa-spinner"></i>')
+        },
+        complete: function () {
+            $('.btn-update').removeAttr('disable')
+            $('.btn-update').html('Simpan')
+        },
+        success: function (response) {
+            $('#formEdit').trigger('reset')
+            $(".invalid-feedback").html('')
+            getData();
+            Swal.fire(
+                response.title,
+                response.message,
+                response.status
+            );
+        },
+        error: function (error) {
+            let formName = []
+            let errorName = []
+
+            $.each($('#formEdit').serializeArray(), function (i, field) {
+                formName.push(field.name.replace(/\[|\]/g, ''))
+            });
+            if (error.status == 422) {
+                if (error.responseJSON.errors) {
+                    $.each(error.responseJSON.errors, function (key, value) {
+                        errorName.push(key)
+                        if($('.'+key).val() == '') {
+                            $('.' + key).addClass('is-invalid')
+                            $('.error-' + key).html(value)
+                        }
+                    })
+                    $.each(formName, function (i, field) {
+                        $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
+                    });
+                }
+            }
+        }
+    });
+}
+
+function processStore(data) {
+    $.ajax({
+        type: "POST",
+        url: "/surat-keluar/store",
+        data: data,
+        processData: false,
+        contentType: false,
+        cache: false,
+        beforeSend: function () {
+            $('.btn-save').attr('disable', 'disabled')
+            $('.btn-save').html('<i class="fa fa-spin fa-spinner"></i>')
+        },
+        complete: function () {
+            $('.btn-save').removeAttr('disable')
+            $('.btn-save').html('Simpan')
+        },
+        success: function (response) {
+            $('#formAdd').trigger('reset')
+            $(".invalid-feedback").html('')
+            getData();
+            Swal.fire(
+                response.title,
+                response.message,
+                response.status
+            );
+        },
+        error: function (error) {
+            let formName = []
+            let errorName = []
+
+            $.each($('#formAdd').serializeArray(), function (i, field) {
+                formName.push(field.name.replace(/\[|\]/g, ''))
+            });
+            if (error.status == 422) {
+                if (error.responseJSON.errors) {
+                    $.each(error.responseJSON.errors, function (key, value) {
+                        errorName.push(key)
+                        if($('.'+key).val() == '') {
+                            $('.' + key).addClass('is-invalid')
+                            $('.error-' + key).html(value)
+                        }
+                    })
+                    $.each(formName, function (i, field) {
+                        $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
+                    });
+                }
+            }
+        }
     });
 }
 
@@ -55,6 +161,7 @@ $(document).ready(function () {
                 } else {
                     $('#tujuan').removeClass('is-invalid');
                     $('.error-tujuan').html('');
+                    // processUpdate(data)
                 }
             }
 
@@ -71,104 +178,12 @@ $(document).ready(function () {
                     }
                 }
             }
-
-            $.ajax({
-                type: "POST",
-                url: "/surat-keluar/store",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function () {
-                    $('.btn-save').attr('disable', 'disabled')
-                    $('.btn-save').html('<i class="fa fa-spin fa-spinner"></i>')
-                },
-                complete: function () {
-                    $('.btn-save').removeAttr('disable')
-                    $('.btn-save').html('Simpan')
-                },
-                success: function (response) {
-                    $('#formAdd').trigger('reset')
-                    $(".invalid-feedback").html('')
-                    getData();
-                    Swal.fire(
-                        response.title,
-                        response.message,
-                        response.status
-                    );
-                },
-                error: function (error) {
-                    let formName = []
-                    let errorName = []
-    
-                    $.each($('#formAdd').serializeArray(), function (i, field) {
-                        formName.push(field.name.replace(/\[|\]/g, ''))
-                    });
-                    if (error.status == 422) {
-                        if (error.responseJSON.errors) {
-                            $.each(error.responseJSON.errors, function (key, value) {
-                                errorName.push(key)
-                                if($('.'+key).val() == '') {
-                                    $('.' + key).addClass('is-invalid')
-                                    $('.error-' + key).html(value)
-                                }
-                            })
-                            $.each(formName, function (i, field) {
-                                $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
-                            });
-                        }
-                    }
-                }
-            });
+            
+            if($('.is-invalid').length == 0) {
+                processStore(data)
+            }
         } else {
-            $.ajax({
-                type: "POST",
-                url: "/surat-keluar/store",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function () {
-                    $('.btn-save').attr('disable', 'disabled')
-                    $('.btn-save').html('<i class="fa fa-spin fa-spinner"></i>')
-                },
-                complete: function () {
-                    $('.btn-save').removeAttr('disable')
-                    $('.btn-save').html('Simpan')
-                },
-                success: function (response) {
-                    $('#formAdd').trigger('reset')
-                    $(".invalid-feedback").html('')
-                    getData();
-                    Swal.fire(
-                        response.title,
-                        response.message,
-                        response.status
-                    );
-                },
-                error: function (error) {
-                    let formName = []
-                    let errorName = []
-    
-                    $.each($('#formAdd').serializeArray(), function (i, field) {
-                        formName.push(field.name.replace(/\[|\]/g, ''))
-                    });
-                    if (error.status == 422) {
-                        if (error.responseJSON.errors) {
-                            $.each(error.responseJSON.errors, function (key, value) {
-                                errorName.push(key)
-                                if($('.'+key).val() == '') {
-                                    $('.' + key).addClass('is-invalid')
-                                    $('.error-' + key).html(value)
-                                }
-                            })
-                            $.each(formName, function (i, field) {
-                                $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
-                            });
-                        }
-                    }
-                }
-            });
+            processStore(data)
         }
     });
 
@@ -213,6 +228,7 @@ $(document).ready(function () {
                 } else {
                     $('#tujuan').removeClass('is-invalid');
                     $('.error-tujuan').html('');
+                    // processUpdate(data)
                 }
             }
 
@@ -229,104 +245,12 @@ $(document).ready(function () {
                     }
                 }
             }
-
-            $.ajax({
-                type: "POST",
-                url: "/surat-keluar/update",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function () {
-                    $('.btn-update').attr('disable', 'disabled')
-                    $('.btn-update').html('<i class="fa fa-spin fa-spinner"></i>')
-                },
-                complete: function () {
-                    $('.btn-update').removeAttr('disable')
-                    $('.btn-update').html('Simpan')
-                },
-                success: function (response) {
-                    $('#formEdit').trigger('reset')
-                    $(".invalid-feedback").html('')
-                    getData();
-                    Swal.fire(
-                        response.title,
-                        response.message,
-                        response.status
-                    );
-                },
-                error: function (error) {
-                    let formName = []
-                    let errorName = []
-    
-                    $.each($('#formEdit').serializeArray(), function (i, field) {
-                        formName.push(field.name.replace(/\[|\]/g, ''))
-                    });
-                    if (error.status == 422) {
-                        if (error.responseJSON.errors) {
-                            $.each(error.responseJSON.errors, function (key, value) {
-                                errorName.push(key)
-                                if($('.'+key).val() == '') {
-                                    $('.' + key).addClass('is-invalid')
-                                    $('.error-' + key).html(value)
-                                }
-                            })
-                            $.each(formName, function (i, field) {
-                                $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
-                            });
-                        }
-                    }
-                }
-            });
+            
+            if($('.is-invalid').length == 0) {
+                processUpdate(data)
+            }
         } else {
-            $.ajax({
-                type: "POST",
-                url: "/surat-keluar/update",
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function () {
-                    $('.btn-update').attr('disable', 'disabled')
-                    $('.btn-update').html('<i class="fa fa-spin fa-spinner"></i>')
-                },
-                complete: function () {
-                    $('.btn-update').removeAttr('disable')
-                    $('.btn-update').html('Simpan')
-                },
-                success: function (response) {
-                    $('#formEdit').trigger('reset')
-                    $(".invalid-feedback").html('')
-                    getData();
-                    Swal.fire(
-                        response.title,
-                        response.message,
-                        response.status
-                    );
-                },
-                error: function (error) {
-                    let formName = []
-                    let errorName = []
-    
-                    $.each($('#formEdit').serializeArray(), function (i, field) {
-                        formName.push(field.name.replace(/\[|\]/g, ''))
-                    });
-                    if (error.status == 422) {
-                        if (error.responseJSON.errors) {
-                            $.each(error.responseJSON.errors, function (key, value) {
-                                errorName.push(key)
-                                if($('.'+key).val() == '') {
-                                    $('.' + key).addClass('is-invalid')
-                                    $('.error-' + key).html(value)
-                                }
-                            })
-                            $.each(formName, function (i, field) {
-                                $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
-                            });
-                        }
-                    }
-                }
-            });
+            processUpdate(data)
         }
     });
 
@@ -380,6 +304,23 @@ $(document).ready(function () {
             $('.div-tujuan-keluar').prop('hidden', false)
         } else {
             $('.div-tujuan-keluar').prop('hidden', true)
+        }
+    });
+
+
+    // prop hidden to false
+    $('body').on('change', '.nomor_surat', function() {
+        let value = $(this).val();
+        if(value != '') {
+            $('body').find('.hidden').prop('hidden', false);
+
+            // fetch data from database
+            $.get("/surat-keluar/pengajuan/"+value, function (data) {
+                $('.perihal').val(data.uraian_perihal)
+            });
+
+        } else {
+            $('body').find('.hidden').prop('hidden', true);
         }
     });
 });

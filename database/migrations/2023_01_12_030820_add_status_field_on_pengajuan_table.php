@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dinas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama', 100);
-            // $table->string('kategori', 50);
-            $table->timestamps();
+        Schema::table('pengajuan', function (Blueprint $table) {
+            $table->boolean('status')->after('keterangan')->default(false);
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dinas');
+        Schema::table('pengajuan', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SuratKeluarRequest extends FormRequest
+class PengajuanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,19 +24,12 @@ class SuratKeluarRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'nomor_surat' => 'required',
-            'klasifikasi' => 'required',
-            'tipe' => 'required',
-            'kategori' => 'required',
-            'perihal' => 'required',
-            'tanggal_surat' => 'required',
+            'kode' => 'required',
+            'unit_pengolahan' => 'required',
+            'tanggal_surat' => 'required|date',
+            'uraian_perihal' => 'required',
+            'keterangan' => 'required',
         ];
-
-        // if(!Request::instance()->has('id')) {
-        //     $rules += ['status' => 'nullable'];
-        // } else {
-        //     $rules += ['status' => 'required'];
-        // }
 
         return $rules;
     }
@@ -45,19 +38,18 @@ class SuratKeluarRequest extends FormRequest
     {
         return [
             'required' => ':attribute harus diisi',
+            'date' => ':attribute hanya berupa tanggal',
         ];
     }
 
     public function attributes()
     {
         return [
-            'nomor_surat' => 'Nomor surat',
-            'klasifikasi' => 'Klasifikasi',
-            'kategori' => 'Kategori',
-            'perihal' => 'Perihal',
+            'kode' => 'Kode',
+            'unit_pengolahan' => 'Unit pengolahan',
             'tanggal_surat' => 'Tanggal surat',
-            'tipe' => 'Tipe surat'
+            'uraian_perihal' => 'Uraian perihal',
+            'keterangan' => 'Keterangan atau penanggung jawab',
         ];
     }
 }
-

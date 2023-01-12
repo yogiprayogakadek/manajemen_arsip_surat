@@ -1,5 +1,5 @@
 <div class="flex-grow-1"></div>
-<div class="app-footer">
+{{-- <div class="app-footer">
     <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
         <a class="btn btn-primary text-white btn-rounded" target="_blank"
             href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970?ref=ui-lib"
@@ -13,4 +13,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

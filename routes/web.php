@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function() {
     Route::get('/home', 'DashboardController@index');
     Route::namespace('Main')->group(function() {
-        Route::get('/', 'DashboardController@index');
+        Route::get('/', 'DashboardController@index')->name('dashboard');
 
         // klasifikasi Route
         Route::controller(KlasifikasiSuratController::class)
@@ -96,6 +96,21 @@ Route::middleware('auth')->group(function() {
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::post('/store', 'store')->name('store');
                 Route::post('/update', 'update')->name('update');
+                Route::get('/pengajuan/{id}', 'pengajuan')->name('pengajuan');
+        });
+
+        // pengajuan Route
+        Route::controller(PengajuanController::class)
+            ->prefix('pengajuan')
+            ->as('pengajuan.')
+            ->group(function(){
+                Route::get('', 'index')->name('index');
+                Route::get('/render', 'render')->name('render');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+                Route::get('/validasi/{id}', 'validasi')->name('validasi');
         });
     });
 });

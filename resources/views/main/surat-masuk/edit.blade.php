@@ -229,6 +229,6 @@
 
 <script>
     $(document).ready(function () {
-        $('.select-dropdown').select2();
+        $('.select-dropdown').select2({ width: '100%' });
     });
 </script>

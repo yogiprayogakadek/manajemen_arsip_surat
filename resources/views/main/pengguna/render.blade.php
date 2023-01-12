@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-6">
-                    Data Dinas
+                    Data Pengguna
                 </div>
                 {{-- @can('admin') --}}
                 <div class="col-6 d-flex align-items-center">
@@ -19,26 +19,25 @@
             <table class="table table-hover table-striped" id="tableData">
                 <thead>
                     <th>No</th>
-                    <th>Nama Dinas</th>
-                    {{-- <th>Kategori Dinas</th> --}}
+                    <th>Nama</th>
+                    <th>Unit</th>
+                    <th>Foto</th>
                     {{-- @can('admin') --}}
                     <th>Aksi</th>
                     {{-- @endcan --}}
                 </thead>
                 <tbody>
-                    @foreach ($dinas as $dinas)
+                    @foreach ($pengguna as $pengguna)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$dinas->nama}}</td>
-                        <td>{{$dinas->kategori}}</td>
+                        <td>{{$pengguna->nama}}</td>
+                        <td>{{$pengguna->role}}</td>
+                        <td><img src="{{asset($pengguna->foto)}}" width="70px"></td>
                         {{-- @can('admin')    --}}
                         <td>
-                            <button class="btn btn-edit btn-default" data-id="{{$dinas->id}}">
+                            <button class="btn btn-edit btn-default" data-id="{{$pengguna->id}}">
                                 <i class="fa fa-eye text-success mr-2 pointer" ></i> Edit
                             </button>
-                            {{-- <button class="btn btn-delete btn-danger" data-id="{{$tipe->id}}">
-                                <i class="fa fa-trash text-success pointer" ></i> Delete
-                            </button> --}}
                         </td>
                         {{-- @endcan --}}
                     </tr>

@@ -17,6 +17,22 @@
             </div>
             <div class="card-body">
                 <div class="form-group row">
+                    <label for="nomor-surat" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
+                        Nomor Surat
+                        <br> <span class="label-needed">(Dibutuhkan)</span>
+                    </label>
+                    <div class="col-lg-11 mt-2">
+                        <select name="nomor_surat" id="nomor-surat" class="form-control nomor_surat">
+                            <option value="">Nomor surat...</option>
+                            @foreach ($nomor_surat as $key => $value)
+                                <option value="{{$key}}">{{$value}}</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback error-nomor_surat"></div>
+                    </div>
+                </div>
+
+                <div class="form-group row hidden">
                     <label for="klasifikasi" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Klasifikasi Surat
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -32,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="tipe" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Tipe Surat
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -48,7 +64,7 @@
                     </div>
                 </div>
                 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="kategori" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Kategori Surat
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -64,7 +80,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="perihal" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Perihal
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -75,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="tanggal-surat" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Tanggal Surat
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -94,7 +110,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="catatan" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Catatan Pengingat
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
@@ -106,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group hidden row">
                     <label for="tujuan-surat" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Tujuan Surat
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
@@ -141,7 +157,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row div-tujuan-keluar" hidden>
+                <div class="form-group row hidden div-tujuan-keluar" hidden>
                     <label for="tujuan-keluar" class="ul-form__label ul-form--margin col-lg-1 col-form-label ">
                         Tujuan Keluar
                         <br> <span class="label-needed">(Dibutuhkan)</span>
@@ -159,7 +175,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="tembusan" class="ul-form__label ul-form--margin col-lg-1   col-form-label ">
                         Tembusan
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
@@ -179,7 +195,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="temmbusan-dinas" class="ul-form__label ul-form--margin col-lg-1 col-form-label ">
                         Tembusan Dinas
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}
@@ -194,7 +210,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row hidden">
                     <label for="tembusan-keluar" class="ul-form__label ul-form--margin col-lg-1 col-form-label ">
                         Tembusan Keluar
                         {{-- <br> <span class="label-needed">(Dibutuhkan)</span> --}}

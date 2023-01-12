@@ -23,7 +23,7 @@
                         <input type="text" class="form-control nama" name="nama" id="nama" value="{{$dinas->nama}}" placeholder="masukkan nama dinas">
                         <div class="invalid-feedback error-nama"></div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <select name="kategori" id="kategori" class="form-control kategori">
                             <option value="">Pilih kategori...</option>
@@ -32,7 +32,7 @@
                             @endforeach
                         </select>
                         <div class="invalid-feedback error-kategori"></div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="card-footer">
